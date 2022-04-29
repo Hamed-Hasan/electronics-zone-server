@@ -14,7 +14,7 @@ app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jxqey.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-
+console.log('db connect');
 
 async function run() {
     try {
@@ -37,6 +37,21 @@ async function run() {
         res.send(service);
     })
 
+
+    app.delete('/service/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = {_id: ObjectId(id)}
+        const result = await serviceCollection.deleteOne(query);
+        res.send(result);
+    })
+
+
+    app.post('/service', async (req, res) =>{
+        const newService = req.body;
+        const result = await serviceCollection.insertOne(newService);
+        res.send(result);
+    })
+    
     }
     finally {
 
