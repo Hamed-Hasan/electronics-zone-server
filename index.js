@@ -45,13 +45,20 @@ async function run() {
         res.send(result);
     })
 
+    app.delete('/manage/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = {_id: ObjectId(id)}
+        const result = await serviceCollection.deleteOne(query);
+        res.send(result);
+    })
+
 
     app.post('/service', async (req, res) =>{
         const newService = req.body;
         const result = await serviceCollection.insertOne(newService);
         res.send(result);
     })
-    
+
     }
     finally {
 
