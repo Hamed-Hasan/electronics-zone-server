@@ -14,13 +14,13 @@ app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jxqey.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-console.log('db connect');
+console.log('db connect Day Tow');
 
 async function run() {
     try {
         await client.connect();
         const serviceCollection = client.db('electronics').collection('service');
-        const orderCollection = client.db('electronics').collection('order');
+        const addItemCollection = client.db('electronics').collection('order');
 
     //   show display service
      app.get('/service', async (req, res) => {
@@ -59,6 +59,13 @@ async function run() {
         res.send(result);
     })
 
+
+    app.post('/addItem', async (req, res) => {
+        const order = req.body
+        const result = await addItemCollection.insertOne(order);
+        res.send(result);
+    })
+    
     }
     finally {
 
