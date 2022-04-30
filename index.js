@@ -16,6 +16,21 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 console.log('db connect Day Tow');
 
+// function verifyJWT(req, res, next) {
+//     const authHeader = req.headers.authorization;
+//     if(!authHeader){
+//         return res.status(401).send({ message: 'unauthorized access'})
+//     }
+//     const token = authHeader.split(' ')[1]
+//     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,decoded) => {
+//         if(err){
+//             return res.status(403).send({ message: ' access'})
+//         }
+//         req.decoded = decoded;
+//         next();
+//     })
+// }
+
 async function run() {
     try {
         await client.connect();
@@ -65,6 +80,20 @@ async function run() {
         const result = await addItemCollection.insertOne(order);
         res.send(result);
     })
+
+    app.get('/item', async (req, res) => {
+        // const freedomEmail = req.decoded.email
+        const email = req.query.email
+    //    if(email === freedomEmail){
+           const query = {email: email}
+           const cursor = addItemCollection.find(query)
+           const order = await cursor.toArray()
+           res.send(order)
+    //    }else{
+    //        res.status(404).send({message: 'not allowed access'})
+    //    }
+    })
+
     
     }
     finally {
