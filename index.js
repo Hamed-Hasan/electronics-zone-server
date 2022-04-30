@@ -37,6 +37,14 @@ async function run() {
         const serviceCollection = client.db('electronics').collection('service');
         const addItemCollection = client.db('electronics').collection('order');
 
+        // app.post('/createToken', async (req, res) => {
+        //     const user = req.body
+        //     const accessToken = jwt.sign(user,  process.env.ACCESS_TOKEN_SECRET, {
+        //         expiresIn: '1d'
+        //     })
+        //     res.send({ accessToken });
+        // })
+
     //   show display service
      app.get('/service', async (req, res) => {
          const query = {};
